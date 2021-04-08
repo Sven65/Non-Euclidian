@@ -2,27 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct CameraTextureMap {
+	public Camera cam;
+	public Material mat;
+}
+
 public class PortalTextureSetup : MonoBehaviour {
 
-	public Camera cameraA;
-	public Camera cameraB;
-
-	public Material cameraMatA;
-	public Material cameraMatB;
+	public CameraTextureMap[] cameraTextures;
 
 	// Use this for initialization
 	void Start () {
-		if (cameraA.targetTexture != null) {
-			cameraA.targetTexture.Release();
-		}
-		cameraA.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		cameraMatA.mainTexture = cameraA.targetTexture;
+		foreach (CameraTextureMap map in cameraTextures) {
+			if (map.cam.targetTexture != null) {
+				map.cam.targetTexture.Release();
+			}
 
-		if (cameraB.targetTexture != null) {
-			cameraB.targetTexture.Release();
+			map.cam.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+			map.mat.mainTexture = map.cam.targetTexture;
 		}
-		cameraB.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		cameraMatB.mainTexture = cameraB.targetTexture;
 	}
 	
 }
